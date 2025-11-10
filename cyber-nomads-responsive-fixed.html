@@ -1,0 +1,2110 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>CYBER NOMADS - Кибер Нүүдэлчид | Digital Descendants</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --electric-blue: #0080FF;
+            --midnight-black: #0A0A0A;
+            --steppe-gold: #D4A76A;
+            --cyber-teal: #00D4AA;
+            --wolf-grey: #8A8A8A;
+            --light-grey: #F5F5F5;
+            --dark-blue: #0a1628;
+            --orange-accent: #FF6B35;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--midnight-black);
+            color: white;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--midnight-black);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--electric-blue), var(--cyber-teal));
+            border-radius: 4px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 10px 20px;
+            box-shadow: 0 2px 20px rgba(0, 128, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Mobile Menu Toggle - LEFT SIDE */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            width: 30px;
+            height: 30px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 1003;
+            position: relative;
+        }
+
+        .mobile-menu-toggle span {
+            width: 100%;
+            height: 3px;
+            background: var(--cyber-teal);
+            transition: all 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--electric-blue), var(--cyber-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .logo::before {
+            content: "◈";
+            font-size: 24px;
+            -webkit-text-fill-color: var(--steppe-gold);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Desktop Navigation */
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            font-size: 15px;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyber-teal);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--cyber-teal);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Language Toggle - RIGHT SIDE */
+        .lang-toggle {
+            display: flex;
+            gap: 5px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 30px;
+            padding: 3px;
+            border: 1px solid rgba(0, 128, 255, 0.3);
+        }
+
+        .lang-btn {
+            padding: 6px 12px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(45deg, var(--electric-blue), var(--cyber-teal));
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Mobile Navigation Overlay */
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 80%;
+            max-width: 300px;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--midnight-black) 0%, var(--dark-blue) 100%);
+            z-index: 1002;
+            transition: left 0.3s ease;
+            box-shadow: 2px 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .mobile-nav-overlay.active {
+            left: 0;
+        }
+
+        .mobile-nav-content {
+            display: flex;
+            flex-direction: column;
+            padding: 80px 30px 30px;
+            gap: 25px;
+        }
+
+        .mobile-nav-content a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .mobile-nav-content a:active {
+            color: var(--cyber-teal);
+        }
+
+        /* Mobile Overlay Background */
+        .mobile-overlay-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-overlay-bg.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Hide/Show content based on language */
+        [data-lang] {
+            display: none;
+        }
+
+        body.lang-mn [data-lang="mn"],
+        body.lang-en [data-lang="en"] {
+            display: initial;
+        }
+
+        /* Special cases for flex and grid containers */
+        .nav-links[data-lang],
+        .cta-buttons[data-lang],
+        .philosophy-grid[data-lang],
+        .services-tabs[data-lang],
+        .service-cards[data-lang],
+        .stats-grid[data-lang],
+        .contact-info[data-lang],
+        .timeline-container[data-lang] {
+            display: none !important;
+        }
+
+        body.lang-mn .nav-links[data-lang="mn"],
+        body.lang-en .nav-links[data-lang="en"],
+        body.lang-mn .services-tabs[data-lang="mn"],
+        body.lang-en .services-tabs[data-lang="en"],
+        body.lang-mn .cta-buttons[data-lang="mn"],
+        body.lang-en .cta-buttons[data-lang="en"],
+        body.lang-mn .contact-info[data-lang="mn"],
+        body.lang-en .contact-info[data-lang="en"] {
+            display: flex !important;
+        }
+
+        body.lang-mn .philosophy-grid[data-lang="mn"],
+        body.lang-en .philosophy-grid[data-lang="en"],
+        body.lang-mn .service-cards[data-lang="mn"],
+        body.lang-en .service-cards[data-lang="en"],
+        body.lang-mn .stats-grid[data-lang="mn"],
+        body.lang-en .stats-grid[data-lang="en"] {
+            display: grid !important;
+        }
+
+        body.lang-mn .timeline-container[data-lang="mn"],
+        body.lang-en .timeline-container[data-lang="en"] {
+            display: block !important;
+        }
+
+        /* Hero Section Enhanced with Story Animation */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--midnight-black) 0%, #0a1628 100%);
+            overflow: hidden;
+            padding: 100px 20px 60px;
+        }
+
+        /* Brand Story Background Animation */
+        .brand-story-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            opacity: 0.15;
+        }
+
+        .story-element {
+            position: absolute;
+            font-size: 50px;
+            opacity: 0;
+            animation: storyFloat 20s infinite;
+        }
+
+        .story-element:nth-child(1) { 
+            left: 10%; 
+            top: 20%; 
+            animation-delay: 0s; 
+        }
+        .story-element:nth-child(2) { 
+            left: 80%; 
+            top: 30%; 
+            animation-delay: 3s; 
+        }
+        .story-element:nth-child(3) { 
+            left: 50%; 
+            top: 60%; 
+            animation-delay: 6s; 
+        }
+        .story-element:nth-child(4) { 
+            left: 20%; 
+            top: 80%; 
+            animation-delay: 9s; 
+        }
+        .story-element:nth-child(5) { 
+            left: 70%; 
+            top: 10%; 
+            animation-delay: 12s; 
+        }
+        .story-element:nth-child(6) { 
+            left: 30%; 
+            top: 50%; 
+            animation-delay: 15s; 
+        }
+
+        @keyframes storyFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.8);
+            }
+            20% {
+                opacity: 0.5;
+                transform: translateY(-10px) scale(1);
+            }
+            40% {
+                opacity: 0.3;
+                transform: translateY(10px) scale(1.1);
+            }
+            60% {
+                opacity: 0.4;
+                transform: translateY(-5px) scale(0.95);
+            }
+            80% {
+                opacity: 0.2;
+                transform: translateY(15px) scale(1.05);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.8);
+            }
+        }
+
+        .grid-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: 
+                repeating-linear-gradient(90deg, var(--electric-blue) 0px, transparent 1px, transparent 2px, var(--electric-blue) 3px),
+                repeating-linear-gradient(0deg, var(--electric-blue) 0px, transparent 1px, transparent 2px, var(--electric-blue) 3px);
+            background-size: 100px 100px;
+            animation: grid-move 20s linear infinite;
+        }
+
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(100px, 100px); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            max-width: 1000px;
+            width: 100%;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 6vw, 5rem);
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--electric-blue), var(--cyber-teal), var(--steppe-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 3s ease infinite;
+            background-size: 200% 200%;
+            line-height: 1.2;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(0.9rem, 2vw, 1.5rem);
+            color: var(--wolf-grey);
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .hero-description {
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+        }
+
+        .transformation-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(10px, 2vw, 25px);
+            margin: 30px 0;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            flex-wrap: wrap;
+        }
+
+        .transformation-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .transformation-item:nth-child(1) { animation-delay: 0.5s; }
+        .transformation-item:nth-child(2) { animation-delay: 1s; }
+        .transformation-item:nth-child(3) { animation-delay: 1.5s; }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .arrow {
+            color: var(--cyber-teal);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--electric-blue), var(--cyber-teal));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 128, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid var(--steppe-gold);
+        }
+
+        .btn-secondary:hover {
+            background: var(--steppe-gold);
+            transform: translateY(-2px);
+        }
+
+        /* Journey Timeline Section */
+        .journey {
+            padding: 60px 20px;
+            background: linear-gradient(180deg, var(--midnight-black) 0%, var(--dark-blue) 100%);
+            position: relative;
+        }
+
+        .timeline-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--electric-blue), var(--cyber-teal));
+            z-index: 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 50px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            padding-left: 40px;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s ease;
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 128, 255, 0.3);
+            position: relative;
+        }
+
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: var(--steppe-gold);
+            border-radius: 50%;
+            position: absolute;
+            left: 11px;
+            z-index: 1;
+            box-shadow: 0 0 20px rgba(212, 167, 106, 0.5);
+        }
+
+        .timeline-date {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-weight: bold;
+            color: var(--cyber-teal);
+            margin-bottom: 10px;
+        }
+
+        .timeline-title {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            color: var(--steppe-gold);
+            margin-bottom: 10px;
+        }
+
+        .timeline-description {
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Philosophy Section */
+        .philosophy {
+            padding: 60px 20px;
+            background: var(--midnight-black);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            line-height: 1.2;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--electric-blue), var(--cyber-teal));
+            border-radius: 2px;
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .philosophy-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 128, 255, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .philosophy-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyber-teal), transparent);
+            animation: scan 3s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .philosophy-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 212, 170, 0.2);
+        }
+
+        .philosophy-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .philosophy-title {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            color: var(--steppe-gold);
+        }
+
+        .philosophy-text {
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .philosophy-details {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .philosophy-details p {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin: 5px 0;
+        }
+
+        .philosophy-card:hover .philosophy-details {
+            max-height: 150px;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 60px 20px;
+            background: linear-gradient(180deg, var(--dark-blue) 0%, var(--midnight-black) 100%);
+        }
+
+        .services-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            padding: 0 10px;
+        }
+
+        .service-tab {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 128, 255, 0.3);
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+            white-space: nowrap;
+        }
+
+        .service-tab.active {
+            background: linear-gradient(45deg, var(--electric-blue), var(--cyber-teal));
+            border-color: transparent;
+            transform: scale(1.05);
+        }
+
+        .service-tab:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--cyber-teal);
+        }
+
+        .service-content {
+            display: none;
+        }
+
+        .service-content.active {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .service-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, rgba(0, 128, 255, 0.1), rgba(0, 212, 170, 0.05));
+            border: 1px solid rgba(0, 128, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--cyber-teal);
+            box-shadow: 0 10px 30px rgba(0, 212, 170, 0.3);
+        }
+
+        .service-icon {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            color: var(--cyber-teal);
+            display: block;
+        }
+
+        .service-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .service-description {
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+        }
+
+        .service-features {
+            list-style: none;
+            font-size: 0.8rem;
+        }
+
+        .service-features li {
+            padding: 4px 0;
+            color: rgba(255, 255, 255, 0.7);
+            position: relative;
+            padding-left: 18px;
+        }
+
+        .service-features li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--cyber-teal);
+        }
+
+        /* Ecosystem Visual */
+        .ecosystem-visual {
+            margin: 30px 0;
+            padding: 25px 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 128, 255, 0.2);
+        }
+
+        .ecosystem-title {
+            text-align: center;
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            color: var(--steppe-gold);
+            margin-bottom: 25px;
+        }
+
+        .ecosystem-diagram {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .ecosystem-node {
+            text-align: center;
+            position: relative;
+        }
+
+        .ecosystem-node-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--electric-blue), var(--cyber-teal));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 8px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .ecosystem-node-title {
+            font-size: 0.8rem;
+            color: white;
+            line-height: 1.3;
+        }
+
+        /* Vision Section */
+        .vision {
+            padding: 60px 20px;
+            background: var(--midnight-black);
+            position: relative;
+        }
+
+        .vision-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .vision-quote {
+            font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+            font-style: italic;
+            color: var(--steppe-gold);
+            margin-bottom: 25px;
+            line-height: 1.4;
+            padding: 0 15px;
+        }
+
+        .vision-text {
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0 15px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .stat-card {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.1);
+        }
+
+        .stat-number {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--electric-blue), var(--cyber-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: clamp(0.8rem, 1.5vw, 1rem);
+            color: var(--wolf-grey);
+            margin-top: 8px;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 60px 20px;
+            background: linear-gradient(180deg, var(--dark-blue) 0%, var(--midnight-black) 100%);
+            text-align: center;
+        }
+
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-text {
+            font-size: clamp(0.95rem, 2vw, 1.2rem);
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 35px;
+            padding: 0 15px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-top: 35px;
+            padding: 0 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--cyber-teal);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+        }
+
+        .contact-item:hover {
+            color: var(--steppe-gold);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 25px 15px;
+            background: #000;
+            text-align: center;
+            border-top: 1px solid rgba(0, 128, 255, 0.2);
+        }
+
+        .footer-text {
+            color: var(--wolf-grey);
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .footer-tagline {
+            color: var(--cyber-teal);
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            /* Show mobile menu toggle */
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            /* Hide desktop navigation */
+            .nav-links {
+                display: none !important;
+            }
+
+            /* Adjust logo size */
+            .logo {
+                font-size: 18px;
+            }
+
+            .logo::before {
+                font-size: 20px;
+            }
+
+            /* Hero adjustments */
+            .hero {
+                padding: 80px 15px 40px;
+                min-height: calc(100vh - 60px);
+            }
+
+            .story-element {
+                font-size: 35px;
+            }
+
+            .transformation-visual {
+                margin: 25px 0;
+            }
+
+            /* Timeline mobile */
+            .timeline-line {
+                left: 12px;
+            }
+
+            .timeline-item {
+                padding-left: 30px;
+                margin-bottom: 35px;
+            }
+
+            .timeline-dot {
+                left: 3px;
+                width: 18px;
+                height: 18px;
+            }
+
+            .timeline-content {
+                padding: 15px;
+            }
+
+            /* Philosophy mobile */
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            /* Services mobile */
+            .services-tabs {
+                gap: 8px;
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+
+            .service-tab {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+
+            .service-cards {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .ecosystem-diagram {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .ecosystem-node-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.3rem;
+            }
+
+            /* Stats mobile */
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+
+            /* Contact mobile */
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            /* Reduce section padding */
+            .journey,
+            .philosophy,
+            .services,
+            .vision,
+            .contact {
+                padding: 50px 15px;
+            }
+
+            /* Desktop timeline hide on mobile */
+            .timeline-item:nth-child(even) {
+                flex-direction: row;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Very small screens */
+            .nav-container {
+                padding: 0 10px;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.85rem;
+            }
+
+            .hero-description {
+                font-size: 0.8rem;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.85rem;
+            }
+
+            .transformation-visual {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 200px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-tabs {
+                flex-wrap: nowrap;
+                overflow-x: scroll;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .service-tab {
+                flex-shrink: 0;
+            }
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--midnight-black);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-circle {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(0, 128, 255, 0.3);
+            border-top-color: var(--cyber-teal);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Touch feedback */
+        @media (hover: none) {
+            .btn:active {
+                transform: scale(0.95);
+            }
+
+            .service-tab:active {
+                transform: scale(0.95);
+            }
+
+            .philosophy-card:active {
+                transform: scale(0.98);
+            }
+
+            .service-card:active {
+                transform: scale(0.98);
+            }
+        }
+    </style>
+</head>
+<body class="lang-mn">
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-circle"></div>
+    </div>
+
+    <!-- Mobile Overlay Background -->
+    <div class="mobile-overlay-bg" id="mobileOverlayBg" onclick="closeMobileMenu()"></div>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+        <div class="mobile-nav-content">
+            <a href="#home" onclick="closeMobileMenu()">
+                <span data-lang="mn">Нүүр</span>
+                <span data-lang="en">Home</span>
+            </a>
+            <a href="#journey" onclick="closeMobileMenu()">
+                <span data-lang="mn">Бидний аялал</span>
+                <span data-lang="en">Our Journey</span>
+            </a>
+            <a href="#philosophy" onclick="closeMobileMenu()">
+                <span data-lang="mn">Философи</span>
+                <span data-lang="en">Philosophy</span>
+            </a>
+            <a href="#services" onclick="closeMobileMenu()">
+                <span data-lang="mn">Үйлчилгээ</span>
+                <span data-lang="en">Services</span>
+            </a>
+            <a href="#vision" onclick="closeMobileMenu()">
+                <span data-lang="mn">Алсын хараа</span>
+                <span data-lang="en">Vision</span>
+            </a>
+            <a href="#contact" onclick="closeMobileMenu()">
+                <span data-lang="mn">Холбоо барих</span>
+                <span data-lang="en">Contact</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <!-- Mobile Menu Toggle - LEFT SIDE -->
+                <button class="mobile-menu-toggle" id="mobileMenuToggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="logo">CYBER NOMADS</div>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <ul class="nav-links" data-lang="mn">
+                <li><a href="#home">Нүүр</a></li>
+                <li><a href="#journey">Бидний аялал</a></li>
+                <li><a href="#philosophy">Философи</a></li>
+                <li><a href="#services">Үйлчилгээ</a></li>
+                <li><a href="#vision">Алсын хараа</a></li>
+                <li><a href="#contact">Холбоо барих</a></li>
+            </ul>
+
+            <ul class="nav-links" data-lang="en">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#journey">Our Journey</a></li>
+                <li><a href="#philosophy">Philosophy</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#vision">Vision</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+
+            <!-- Language Toggle - RIGHT SIDE -->
+            <div class="lang-toggle">
+                <button class="lang-btn active" onclick="setLanguage('mn')">🇲🇳 MN</button>
+                <button class="lang-btn" onclick="setLanguage('en')">🇬🇧 EN</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Brand Story Animation -->
+    <section class="hero" id="home">
+        <!-- Brand Story Background Animation -->
+        <div class="brand-story-bg">
+            <div class="story-element">🐎</div>
+            <div class="story-element">💻</div>
+            <div class="story-element">🏹</div>
+            <div class="story-element">🤖</div>
+            <div class="story-element">⛺</div>
+            <div class="story-element">🌐</div>
+        </div>
+
+        <div class="grid-background"></div>
+        
+        <!-- Mongolian Hero Content -->
+        <div class="hero-content" data-lang="mn">
+            <h1 class="hero-title">КИБЕР НҮҮДЭЛЧИД</h1>
+            <p class="hero-subtitle">Их Эзэнт Гүрний Дижитал Үр Удам</p>
+            
+            <div class="transformation-visual">
+                <div class="transformation-item">
+                    <span>🐎</span>
+                    <span class="arrow">→</span>
+                    <span>💻</span>
+                </div>
+                <div class="transformation-item">
+                    <span>🏹</span>
+                    <span class="arrow">→</span>
+                    <span>🤖</span>
+                </div>
+                <div class="transformation-item">
+                    <span>⛺</span>
+                    <span class="arrow">→</span>
+                    <span>🌐</span>
+                </div>
+            </div>
+
+            <p class="hero-description">
+                800 жилийн өмнө бидний өвөг дээдэс морь, нум сумаар дэлхийг эзэлсэн.<br>
+                Өнөөдөр бид код, алгоритм, AI-аар дижитал ертөнцийг бүтээнэ.
+            </p>
+            <div class="cta-buttons" data-lang="mn">
+                <a href="#services" class="btn btn-primary">Үйлчилгээтэй танилцах</a>
+                <a href="#contact" class="btn btn-secondary">Бидэнтэй нэгдэх</a>
+            </div>
+        </div>
+
+        <!-- English Hero Content -->
+        <div class="hero-content" data-lang="en">
+            <h1 class="hero-title">CYBER NOMADS</h1>
+            <p class="hero-subtitle">Digital Descendants of the Great Empire</p>
+            
+            <div class="transformation-visual">
+                <div class="transformation-item">
+                    <span>🐎</span>
+                    <span class="arrow">→</span>
+                    <span>💻</span>
+                </div>
+                <div class="transformation-item">
+                    <span>🏹</span>
+                    <span class="arrow">→</span>
+                    <span>🤖</span>
+                </div>
+                <div class="transformation-item">
+                    <span>⛺</span>
+                    <span class="arrow">→</span>
+                    <span>🌐</span>
+                </div>
+            </div>
+
+            <p class="hero-description">
+                800 years ago, our ancestors conquered the world with horses and arrows.<br>
+                Today, we build the digital realm with code, algorithms, and AI.
+            </p>
+            <div class="cta-buttons" data-lang="en">
+                <a href="#services" class="btn btn-primary">Explore Services</a>
+                <a href="#contact" class="btn btn-secondary">Join Our Journey</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Journey Timeline Section -->
+    <section class="journey" id="journey">
+        <div class="section-container">
+            <h2 class="section-title" data-lang="mn">Бидний Аялал</h2>
+            <h2 class="section-title" data-lang="en">Our Journey</h2>
+            
+            <!-- Mongolian Timeline -->
+            <div class="timeline-container" data-lang="mn">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">13-р зуун</div>
+                        <div class="timeline-title">Их Монгол Улс</div>
+                        <div class="timeline-description">
+                            Чингис хаан дэлхийн хамгийн том эзэнт гүрнийг байгуулж, худалдааны замуудыг нээж, мэдлэг солилцоог дэмжсэн.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2020</div>
+                        <div class="timeline-title">Дижитал Шилжилт</div>
+                        <div class="timeline-description">
+                            Монгол залуус технологийн салбарт идэвхтэй оролцож, олон улсын зах зээлд өрсөлдөх чадвартай болж эхэлсэн.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2025</div>
+                        <div class="timeline-title">CYBER NOMADS</div>
+                        <div class="timeline-description">
+                            Кибер аюулгүй байдал, AI, олон нийтийн хамгаалалт, үйлчилгээний экосистемийг нэгтгэсэн технологийн групп компани үүслээ.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2030</div>
+                        <div class="timeline-title">Технологи Бүтээгч Үндэстэн</div>
+                        <div class="timeline-description">
+                            Монгол улс дэлхийд технологи экспортлогч, инновацийн төв болно. Silicon Valley-д төрсөн технологи Монголд ч төрнө.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- English Timeline -->
+            <div class="timeline-container" data-lang="en">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">13th Century</div>
+                        <div class="timeline-title">Mongol Empire</div>
+                        <div class="timeline-description">
+                            Genghis Khan established the world's largest empire, opening trade routes and promoting knowledge exchange.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2020</div>
+                        <div class="timeline-title">Digital Transformation</div>
+                        <div class="timeline-description">
+                            Mongolian youth began actively participating in the technology sector, becoming competitive in the global market.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2025</div>
+                        <div class="timeline-title">CYBER NOMADS</div>
+                        <div class="timeline-description">
+                            A technology group company was born, integrating cybersecurity, AI, public safety, and service ecosystem.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2030</div>
+                        <div class="timeline-title">Technology Creating Nation</div>
+                        <div class="timeline-description">
+                            Mongolia becomes a technology exporter and innovation hub. Technology born in Silicon Valley will also be born in Mongolia.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section class="philosophy" id="philosophy">
+        <div class="section-container">
+            <!-- Mongolian Philosophy -->
+            <div data-lang="mn">
+                <h2 class="section-title">Бидний Философи</h2>
+                <div class="philosophy-grid" data-lang="mn">
+                    <div class="philosophy-card">
+                        <div class="philosophy-icon">🛡️</div>
+                        <h3 class="philosophy-title">ХАМГААЛАХ</h3>
+                        <p class="philosophy-text">
+                            Кибер аюулгүй байдал болон олон нийтийн хамгаалалтын системээр иргэд, байгууллага, улс орноо хамгаална
+                        </p>
+                        <div class="philosophy-details">
+                            <p>• 24/7 NOC мониторинг</p>
+                            <p>• AI суурилтай аюул илрүүлэлт</p>
+                            <p>• Ухаалаг камерын систем</p>
+                        </div>
+                    </div>
+                    <div class="philosophy-card">
+                        <div class="philosophy-icon">🚀</div>
+                        <h3 class="philosophy-title">БҮТЭЭХ</h3>
+                        <p class="philosophy-text">
+                            AI, blockchain, quantum computing ашиглан Монголоос дэлхийд технологи экспортлоно
+                        </p>
+                        <div class="philosophy-details">
+                            <p>• Duuday платформ</p>
+                            <p>• IGISHUUN.MN систем</p>
+                            <p>• Property management шийдэл</p>
+                        </div>
+                    </div>
+                    <div class="philosophy-card">
+                        <div class="philosophy-icon">🌐</div>
+                        <h3 class="philosophy-title">ХӨГЖИХ</h3>
+                        <p class="philosophy-text">
+                            Уламжлалт мэдлэг ба орчин үеийн технологийг нэгтгэн шинэ шийдэл гаргана
+                        </p>
+                        <div class="philosophy-details">
+                            <p>• Монгол залуусыг сургах</p>
+                            <p>• Олон улсын түншлэл</p>
+                            <p>• Тасралтгүй инноваци</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- English Philosophy -->
+            <div data-lang="en">
+                <h2 class="section-title">Our Philosophy</h2>
+                <div class="philosophy-grid" data-lang="en">
+                    <div class="philosophy-card">
+                        <div class="philosophy-icon">🛡️</div>
+                        <h3 class="philosophy-title">PROTECT</h3>
+                        <p class="philosophy-text">
+                            Safeguarding citizens, organizations, and nations through cybersecurity and public safety systems
+                        </p>
+                        <div class="philosophy-details">
+                            <p>• 24/7 NOC monitoring</p>
+                            <p>• AI-based threat detection</p>
+                            <p>• Smart camera systems</p>
+                        </div>
+                    </div>
+                    <div class="philosophy-card">
+                        <div class="philosophy-icon">🚀</div>
+                        <h3 class="philosophy-title">BUILD</h3>
+                        <p class="philosophy-text">
+                            Exporting technology from Mongolia to the world using AI, blockchain, and quantum computing
+                        </p>
+                        <div class="philosophy-details">
+                            <p>• Duuday platform</p>
+                            <p>• IGISHUUN.MN system</p>
+                            <p>• Property management solutions</p>
+                        </div>
+                    </div>
+                    <div class="philosophy-card">
+                        <div class="philosophy-icon">🌐</div>
+                        <h3 class="philosophy-title">EVOLVE</h3>
+                        <p class="philosophy-text">
+                            Creating innovative solutions by merging traditional wisdom with modern technology
+                        </p>
+                        <div class="philosophy-details">
+                            <p>• Training Mongolian youth</p>
+                            <p>• International partnerships</p>
+                            <p>• Continuous innovation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section with Tabs -->
+    <section class="services" id="services">
+        <div class="section-container">
+            <h2 class="section-title" data-lang="mn">Бидний Үйлчилгээ</h2>
+            <h2 class="section-title" data-lang="en">Our Services</h2>
+
+            <!-- Service Tabs -->
+            <div class="services-tabs" data-lang="mn">
+                <div class="service-tab active" onclick="showService('cyber', 'mn')">Кибер Аюулгүй Байдал</div>
+                <div class="service-tab" onclick="showService('ai', 'mn')">AI & Автоматжуулалт</div>
+                <div class="service-tab" onclick="showService('property', 'mn')">Property Service</div>
+                <div class="service-tab" onclick="showService('maintenance', 'mn')">Maintenance First</div>
+            </div>
+
+            <div class="services-tabs" data-lang="en">
+                <div class="service-tab active" onclick="showService('cyber', 'en')">Cyber Security</div>
+                <div class="service-tab" onclick="showService('ai', 'en')">AI & Automation</div>
+                <div class="service-tab" onclick="showService('property', 'en')">Property Service</div>
+                <div class="service-tab" onclick="showService('maintenance', 'en')">Maintenance First</div>
+            </div>
+
+            <!-- Mongolian Service Contents -->
+            <div data-lang="mn">
+                <!-- Cyber Security -->
+                <div id="cyber-mn" class="service-content active">
+                    <div class="service-cards" data-lang="mn">
+                        <div class="service-card">
+                            <div class="service-icon">🔒</div>
+                            <h3 class="service-title">NOC Үйлчилгээ</h3>
+                            <p class="service-description">24/7 сүлжээний хяналт, мониторинг</p>
+                            <ul class="service-features">
+                                <li>Бодит цагийн аюулын илрүүлэлт</li>
+                                <li>Incident response</li>
+                                <li>Сүлжээний оновчлол</li>
+                            </ul>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">🛡️</div>
+                            <h3 class="service-title">Endpoint Protection</h3>
+                            <p class="service-description">Төхөөрөмжийн аюулгүй байдал</p>
+                            <ul class="service-features">
+                                <li>Antivirus & Anti-malware</li>
+                                <li>Device management</li>
+                                <li>Data encryption</li>
+                            </ul>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">🔐</div>
+                            <h3 class="service-title">Security Audit</h3>
+                            <p class="service-description">Аюулгүй байдлын шалгалт</p>
+                            <ul class="service-features">
+                                <li>Penetration testing</li>
+                                <li>Vulnerability assessment</li>
+                                <li>Compliance check</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI & Automation -->
+                <div id="ai-mn" class="service-content">
+                    <div class="service-cards" data-lang="mn">
+                        <div class="service-card">
+                            <div class="service-icon">🤖</div>
+                            <h3 class="service-title">AI ХАБ Систем</h3>
+                            <p class="service-description">Ухаалаг хяналтын систем</p>
+                            <ul class="service-features">
+                                <li>Нүүр таних технологи</li>
+                                <li>Объект таних</li>
+                                <li>Зан төлөвийн анализ</li>
+                            </ul>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">📊</div>
+                            <h3 class="service-title">Өгөгдлийн Анализ</h3>
+                            <p class="service-description">Big Data & Analytics</p>
+                            <ul class="service-features">
+                                <li>Predictive analytics</li>
+                                <li>Business intelligence</li>
+                                <li>Real-time reporting</li>
+                            </ul>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">⚙️</div>
+                            <h3 class="service-title">Процесс Автоматжуулалт</h3>
+                            <p class="service-description">RPA шийдлүүд</p>
+                            <ul class="service-features">
+                                <li>Workflow automation</li>
+                                <li>Document processing</li>
+                                <li>Integration services</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Service -->
+                <div id="property-mn" class="service-content">
+                    <div class="service-cards" data-lang="mn">
+                        <div class="service-card">
+                            <div class="service-icon">🏢</div>
+                            <h3 class="service-title">Property Management</h3>
+                            <p class="service-description">Өмч хөрөнгийн удирдлага</p>
+                            <ul class="service-features">
+                                <li>Төлбөр тооцоо, контор</li>
+                                <li>Эд хөрөнгийн хяналт</li>
+                                <li>Tenant management</li>
+                            </ul>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">🏠</div>
+                            <h3 class="service-title">Duuday Platform</h3>
+                            <p class="service-description">Үйлчилгээний маркетплэйс</p>
+                            <ul class="service-features">
+                                <li>Сантехник, цахилгаанчин</li>
+                                <li>Гэр цэвэрлэгээ</li>
+                                <li>Зөөвөрлөх үйлчилгээ</li>
+                            </ul>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">🔧</div>
+                            <h3 class="service-title">Засвар Үйлчилгээ</h3>
+                            <p class="service-description">Техникийн үйлчилгээ</p>
+                            <ul class="service-features">
+                                <li>Emergency response</li>
+                                <li>Preventive maintenance</li>
+                                <li>Quality assurance</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Maintenance First -->
+                <div id="maintenance-mn" class="service-content">
+                    <div class="ecosystem-visual">
+                        <h3 class="ecosystem-title">MAINTENANCE FIRST ECOSYSTEM</h3>
+                        <div class="ecosystem-diagram">
+                            <div class="ecosystem-node">
+                                <div class="ecosystem-node-icon">👷</div>
+                                <div class="ecosystem-node-title">Барилгын Харуул</div>
+                            </div>
+                            <div class="ecosystem-node">
+                                <div class="ecosystem-node-icon">📹</div>
+                                <div class="ecosystem-node-title">Камер & Домофон</div>
+                            </div>
+                            <div class="ecosystem-node">
+                                <div class="ecosystem-node-icon">🚧</div>
+                                <div class="ecosystem-node-title">Зогсоолын Шийдэл</div>
+                            </div>
+                            <div class="ecosystem-node">
+                                <div class="ecosystem-node-icon">🏗️</div>
+                                <div class="ecosystem-node-title">Объектийн Хамгаалалт</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- English Service Contents -->
+            <div data-lang="en">
+                <!-- Similar structure for English content -->
+                <div id="cyber-en" class="service-content active">
+                    <div class="service-cards" data-lang="en">
+                        <div class="service-card">
+                            <div class="service-icon">🔒</div>
+                            <h3 class="service-title">NOC Services</h3>
+                            <p class="service-description">24/7 network monitoring</p>
+                            <ul class="service-features">
+                                <li>Real-time threat detection</li>
+                                <li>Incident response</li>
+                                <li>Network optimization</li>
+                            </ul>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">🛡️</div>
+                            <h3 class="service-title">Endpoint Protection</h3>
+                            <p class="service-description">Device security solutions</p>
+                            <ul class="service-features">
+                                <li>Antivirus & Anti-malware</li>
+                                <li>Device management</li>
+                                <li>Data encryption</li>
+                            </ul>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">🔐</div>
+                            <h3 class="service-title">Security Audit</h3>
+                            <p class="service-description">Comprehensive security assessment</p>
+                            <ul class="service-features">
+                                <li>Penetration testing</li>
+                                <li>Vulnerability assessment</li>
+                                <li>Compliance check</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other English service sections... -->
+                <div id="ai-en" class="service-content">
+                    <!-- AI content -->
+                </div>
+                <div id="property-en" class="service-content">
+                    <!-- Property content -->
+                </div>
+                <div id="maintenance-en" class="service-content">
+                    <!-- Maintenance content -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision Section -->
+    <section class="vision" id="vision">
+        <div class="section-container">
+            <!-- Mongolian Vision -->
+            <div data-lang="mn">
+                <h2 class="section-title">Алсын хараа 2030</h2>
+                <div class="vision-content">
+                    <p class="vision-quote">
+                        Чингис хаан дэлхийг нэгтгэсэн шиг,<br>
+                        бид дижитал ертөнцийг холбоно
+                    </p>
+                    <p class="vision-text">
+                        Silicon Valley-д төрсөн технологи Монголд ч төрж чадна.<br>
+                        Tel Aviv хамгаалдаг шиг Монгол ч хамгаалж чадна.<br>
+                        Bangalore кодлодог шиг Улаанбаатар ч кодлож чадна.
+                    </p>
+                </div>
+                <div class="stats-grid" data-lang="mn">
+                    <div class="stat-card">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Үндсэн салбар</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Үйлчилгээ</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2030</div>
+                        <div class="stat-label">Зорилтот он</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Боломжууд</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- English Vision -->
+            <div data-lang="en">
+                <h2 class="section-title">Vision 2030</h2>
+                <div class="vision-content">
+                    <p class="vision-quote">
+                        As Genghis Khan united the world,<br>
+                        we will connect the digital realm
+                    </p>
+                    <p class="vision-text">
+                        Technology born in Silicon Valley can be born in Mongolia.<br>
+                        Mongolia can protect like Tel Aviv protects.<br>
+                        Ulaanbaatar can code like Bangalore codes.
+                    </p>
+                </div>
+                <div class="stats-grid" data-lang="en">
+                    <div class="stat-card">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Core Sectors</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Services</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">2030</div>
+                        <div class="stat-label">Target Year</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Possibilities</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-content">
+            <!-- Mongolian Contact -->
+            <div data-lang="mn">
+                <h2 class="section-title">Дижитал Хувьсгалд Нэгдэх</h2>
+                <p class="contact-text">
+                    Дараагийн үеийн дижитал нүүдэлчдийн нэг хэсэг болоход бэлэн үү?<br>
+                    Ирээдүйг хамтдаа бүтээцгээе.
+                </p>
+                <div class="cta-buttons" data-lang="mn">
+                    <a href="mailto:hello@cybernomads.mn" class="btn btn-primary">Эхлүүлэх</a>
+                </div>
+                <div class="contact-info" data-lang="mn">
+                    <a href="mailto:hello@cybernomads.mn" class="contact-item">
+                        <span>✉️</span>
+                        <span>hello@cybernomads.mn</span>
+                    </a>
+                    <a href="tel:+97670000000" class="contact-item">
+                        <span>📱</span>
+                        <span>+976 7000 0000</span>
+                    </a>
+                    <a href="#" class="contact-item">
+                        <span>📍</span>
+                        <span>Улаанбаатар, Монгол</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- English Contact -->
+            <div data-lang="en">
+                <h2 class="section-title">Join the Digital Revolution</h2>
+                <p class="contact-text">
+                    Ready to become part of the next generation of digital nomads?<br>
+                    Let's build the future together.
+                </p>
+                <div class="cta-buttons" data-lang="en">
+                    <a href="mailto:hello@cybernomads.mn" class="btn btn-primary">Get Started</a>
+                </div>
+                <div class="contact-info" data-lang="en">
+                    <a href="mailto:hello@cybernomads.mn" class="contact-item">
+                        <span>✉️</span>
+                        <span>hello@cybernomads.mn</span>
+                    </a>
+                    <a href="tel:+97670000000" class="contact-item">
+                        <span>📱</span>
+                        <span>+976 7000 0000</span>
+                    </a>
+                    <a href="#" class="contact-item">
+                        <span>📍</span>
+                        <span>Ulaanbaatar, Mongolia</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-text" data-lang="mn">© 2025 CYBER NOMADS GROUP. Бүх эрх хуулиар хамгаалагдсан.</p>
+        <p class="footer-text" data-lang="en">© 2025 CYBER NOMADS GROUP. All rights reserved.</p>
+        <p class="footer-tagline" data-lang="mn">Тал нутгаас сервер рүү, уламжлалаас инноваци руу</p>
+        <p class="footer-tagline" data-lang="en">From the steppes to the servers, from tradition to innovation</p>
+    </footer>
+
+    <script>
+        // Hide loader when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const toggle = document.getElementById('mobileMenuToggle');
+            const overlay = document.getElementById('mobileNavOverlay');
+            const overlayBg = document.getElementById('mobileOverlayBg');
+            
+            toggle.classList.toggle('active');
+            overlay.classList.toggle('active');
+            overlayBg.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            if (overlay.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        function closeMobileMenu() {
+            const toggle = document.getElementById('mobileMenuToggle');
+            const overlay = document.getElementById('mobileNavOverlay');
+            const overlayBg = document.getElementById('mobileOverlayBg');
+            
+            toggle.classList.remove('active');
+            overlay.classList.remove('active');
+            overlayBg.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Language Toggle
+        function setLanguage(lang) {
+            document.body.className = 'lang-' + lang;
+            
+            // Update button states
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Save preference
+            localStorage.setItem('preferredLanguage', lang);
+
+            // Reset service tabs
+            const currentLang = lang;
+            const firstTab = document.querySelector(`[data-lang="${currentLang}"] .service-tab`);
+            if (firstTab) {
+                showService('cyber', currentLang);
+            }
+        }
+
+        // Load preferred language
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLanguage') || 'mn';
+            document.body.className = 'lang-' + savedLang;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if ((savedLang === 'mn' && btn.textContent.includes('MN')) || 
+                    (savedLang === 'en' && btn.textContent.includes('EN'))) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        });
+
+        // Service Tab Switching
+        function showService(service, lang) {
+            // Hide all contents
+            document.querySelectorAll(`#cyber-${lang}, #ai-${lang}, #property-${lang}, #maintenance-${lang}`).forEach(content => {
+                if (content) content.classList.remove('active');
+            });
+            
+            // Show selected content
+            const selectedContent = document.getElementById(`${service}-${lang}`);
+            if (selectedContent) {
+                selectedContent.classList.add('active');
+            }
+
+            // Update tab states
+            document.querySelectorAll(`[data-lang="${lang}"] .service-tab`).forEach(tab => {
+                tab.classList.remove('active');
+            });
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+        }
+
+        // Navigation scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const navHeight = document.getElementById('navbar').offsetHeight;
+                    const targetPosition = target.offsetTop - navHeight;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Timeline Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe timeline items
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            observer.observe(item);
+        });
+
+        // Parallax effect optimized
+        let ticking = false;
+        function updateParallax() {
+            const scrolled = window.pageYOffset;
+            const heroBg = document.querySelector('.grid-background');
+            if (heroBg && scrolled < window.innerHeight) {
+                heroBg.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        });
+
+        // Touch feedback
+        document.addEventListener('touchstart', function() {}, {passive: true});
+
+        // Console Easter egg
+        console.log('%c🐎 CYBER NOMADS 🚀', 'font-size: 30px; font-weight: bold; background: linear-gradient(45deg, #0080FF, #00D4AA); color: white; padding: 10px;');
+        console.log('%cМорьтон → Кодчин | Horse Rider → Coder', 'font-size: 16px; color: #D4A76A;');
+    </script>
+</body>
+</html>
